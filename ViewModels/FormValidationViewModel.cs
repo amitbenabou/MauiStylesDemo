@@ -29,7 +29,7 @@ namespace MauiStylesDemo.ViewModels
             set
             {
                 date = value;
-                ValidateName();
+                ValidateDate();
                 OnPropertyChanged("Date");
             }
         }
@@ -47,9 +47,17 @@ namespace MauiStylesDemo.ViewModels
         }
         private void ValidateDate()
         {
-            this.ShowDateError = DateTime.Today.Year - date.Year <= 13;
+            double age = CalculaterAge();
+            this.ShowDateError = age <= 13;
         }
 
+        private double CalculaterAge()
+        {
+            DateTime currentDate = DateTime.Now;
+            TimeSpan d = currentDate - date;
+            double ageInYears = d.TotalDays / 365.25;
+            return ageInYears;
+        }
 
 
 
@@ -147,6 +155,7 @@ namespace MauiStylesDemo.ViewModels
             this.AgeError = "הגיל חייב להיות גדול מ 13";
             this.ShowAgeError = false;
             this.SaveDataCommand = new Command(() => SaveData());
+            this.ShowDateError = false;
         }
 
         //This function validate the entire form upon submit!
